@@ -97,8 +97,8 @@ def main():
 
         # Search Twitter
         items = tweepy.Cursor(api.search, q='#OccupyGeziManifestosu',
-                                  count=100, since_id=latest_id,
-                                  result_type='recent').items()
+                              count=100, since_id=latest_id,
+                              result_type='recent').items()
 
         for tweet in items:
             # Skip retweets
