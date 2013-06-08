@@ -92,8 +92,7 @@ def main():
     date = datetime.now()
     filename = 'occupygezi-%s.csv' % date.strftime(DATE_FORMAT)
     with file(filename, 'w') as f:
-        tweets = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC,
-                            doublequote=False, escapechar='\\')
+        tweets = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
 
         # Search Twitter
         items = tweepy.Cursor(api.search, q='#OccupyGeziManifestosu',
