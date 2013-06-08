@@ -105,7 +105,9 @@ def main():
             if tweet.text.startswith('RT @'):
                 continue
 
-            tweets.writerow([tweet.id_str, tweet.user.screen_name,
+            id = tweet.id_str
+            name = tweet.user.screen_name
+            tweets.writerow([id, name, get_status_url(name, id),
                              tweet.text.replace('\n', ' ').encode('utf8')])
 
     # If there aren't any tweets, delete the CSV file
