@@ -110,7 +110,7 @@ def main():
             # Remove hashtag from tweets
             text = re.sub(r'#OccupyGeziManifestosu', '', text, re.IGNORECASE)
             # Replace multiple spaces with single spaces
-            text = re.sub(r'\s{2,}', ' ', text)
+            text = re.sub(r'\s{2,}', ' ', text).strip()
             tweets.writerow([id, name, get_status_url(name, id), text])
 
     # If there aren't any tweets, delete the CSV file
