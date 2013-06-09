@@ -60,8 +60,7 @@ def get_latest_id():
 
     # Read CSV file to get latest tweet ID
     with open('occupygezi-%s.csv' % date.strftime(DATE_FORMAT)) as f:
-        tweets = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC,
-                            doublequote=False, escapechar='\\')
+        tweets = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)
         latest_id = 0
         for tweet in tweets:
             id = tweet[0]
