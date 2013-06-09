@@ -106,8 +106,12 @@ def main():
 
             id = tweet.id_str
             name = tweet.user.screen_name
-            tweets.writerow([id, name, get_status_url(name, id),
-                             tweet.text.replace('\n', ' ').encode('utf8')])
+            text = tweet.text.replace('\n', ' ').encode('utf8')
+            # Remove hashtag from tweets
+            text = re.sub(r'#OccupyGeziManifestosu', '', text, re.IGNORECASE)
+            # Replace multiple spaces with single spaces
+            text = re.sub(r'\s{2,}', ' ', text)
+            tweets.writerow([id, name, get_status_url(name, id), text])
 
     # If there aren't any tweets, delete the CSV file
     if items.count == 0:
