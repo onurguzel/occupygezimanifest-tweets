@@ -14,6 +14,8 @@ import tweepy
 import occupygezi_tokens
 
 DATE_FORMAT = '%Y%m%d%H%M%S'
+CSV_PREFIX = 'occupygezi'
+TAG = '#OccupyGeziManifestosu'
 
 
 def find_latest_csv():
@@ -27,7 +29,7 @@ def find_latest_csv():
             continue
 
         # Skip CSV files not matching the pattern
-        m = re.match(r'occupygezi-([0-9]{14}).csv', f)
+        m = re.match(r'%s-([0-9]{14}).csv' % CSV_PREFIX, f)
         if not m:
             continue
 
@@ -59,7 +61,7 @@ def get_latest_id():
         return 0
 
     # Read CSV file to get latest tweet ID
-    with open('occupygezi-%s.csv' % date.strftime(DATE_FORMAT)) as f:
+    with open('%s-%s.csv' % (CSV_PREFIX, date.strftime(DATE_FORMAT))) as f:
         tweets = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)
         latest_id = 0
         for tweet in tweets:
@@ -89,12 +91,12 @@ def main():
 
     # Write tweets into a brand new CSV file
     date = datetime.now()
-    filename = 'occupygezi-%s.csv' % date.strftime(DATE_FORMAT)
+    filename = '%s-%s.csv' % (CSV_PREFIX, date.strftime(DATE_FORMAT))
     with file(filename, 'w') as f:
         tweets = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
 
         # Search Twitter
-        items = tweepy.Cursor(api.search, q='#OccupyGeziManifestosu',
+        items = tweepy.Cursor(api.search, q=TAG,
                               count=100, since_id=latest_id,
                               result_type='recent').items()
 
@@ -107,7 +109,7 @@ def main():
             name = tweet.user.screen_name
             text = tweet.text.replace('\n', ' ').encode('utf8')
             # Remove hashtag from tweets
-            text = re.sub(r'#OccupyGeziManifestosu', '', text, flags=re.IGNORECASE)
+            text = re.sub(TAG, '', text, flags=re.IGNORECASE)
             # Replace multiple spaces with single spaces
             text = re.sub(r'\s{2,}', ' ', text).strip()
             tweets.writerow([id, name, get_status_url(name, id), text])
