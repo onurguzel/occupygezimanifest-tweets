@@ -107,9 +107,9 @@ def main():
 
             id = tweet.id_str
             name = tweet.user.screen_name
-            text = tweet.text.replace('\n', ' ').encode('utf8')
+            text = tweet.text.replace('\n', ' ').replace('&amp;', '&')
             # Remove hashtag from tweets
-            text = re.sub(TAG, '', text, flags=re.IGNORECASE)
+            text = re.sub(TAG, '', text.encode('utf8'), flags=re.IGNORECASE)
             # Replace multiple spaces with single spaces
             text = re.sub(r'\s{2,}', ' ', text).strip()
             tweets.writerow([id, name, get_status_url(name, id), text])
